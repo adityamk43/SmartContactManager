@@ -1,0 +1,152 @@
+<!doctype html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:fragment="layout(content)">
+	
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title th:text="${title}">Base Page</title>
+
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+		crossorigin="anonymous">
+	
+	<!-- favicon -->
+	<link rel="icon" type="image/png" th:href="@{/img/scm.png}">
+	
+	
+	<link rel="stylesheet" href="" th:href="@{/css/style.css}" />
+	
+	<script src="https://kit.fontawesome.com/133da0018b.js" crossorigin="anonymous"></script>
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" 
+		crossorigin="anonymous"></script>
+		
+</head>
+<body>
+	<!-- NAVBAR -->
+	<nav class="navbar fixed-top navbar-expand-lg bg-primary navbar-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand h1" href="#">Smart Contact Manager</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-uppercase">
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="#" th:href="@{/}">Home</a></li>
+						
+				
+					<li class="nav-item"><a href="#" class="nav-link ">
+						<img style="width: 30px; height: 30px;" class="my_profile_picture img-fluid" 
+							th:src="@{'/img/' + ${user.getImageUrl()}}" alt="PFP" />
+						<span th:text="${user.name}"></span></a>
+					</li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a>
+					</li>
+				</ul>
+				
+			</div>
+		</div>
+	</nav>
+	<!-- END OF NAVBAR -->
+
+	<!-- SIDEBAR -->
+	<div class="sidebar mt-2">
+		<span onclick="toggleSidebar()" class="close-button">&times;</span>
+	
+		<a id="home-link" href="#" th:href="@{/user/index}" class="item"><i class="fa-solid fa-house-chimney"></i> Home</a>
+		<a id="view-contacts-link" href="#" th:href="@{/user/show-contacts/0}" class="item"><i class="fa-solid fa-id-card"></i> View Contacts</a>
+		<a id="add-contact-link" href="#" th:href="@{/user/add-contact}" class="item"><i class="fa-solid fa-pencil"></i> Add Contacts</a>
+		<a id="profile-link" href="#" th:href="@{/user/profile}" class="item"><i class="fa-solid fa-circle-user"></i> Your Profile</a>
+		<a id="settings-link" href="#" th:href="@{/user/settings}" class="item"><i class="fa-solid fa-gears"></i> Settings</a>
+		<a id="logout-link" href="#" th:href="@{/logout}" class="item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+		<div class="divider"></div>
+
+	</div>
+	<!-- END OF SIDEBAR -->
+	
+	
+	<!-- CONTENT AREA -->
+	<div class="content mt-5">
+		<i onclick="toggleSidebar()" class="fa-solid fa-bars mt-3 mb-2"></i>
+		
+		<!-- message box -->
+		<div th:if="${session.message}" class="me-3 text-center">
+			<div class="alert" th:classappend="${'alert-' + session.message.type}" role="alert" 
+			th:text="${session.message.content}">
+			</div>
+			
+			<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+		</div>
+		
+		
+		<div th:replace="${content}"></div>
+	</div>
+	<!-- END OF CONTENT AREA -->
+
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+		crossorigin="anonymous"></script>
+	
+	<script th:src="@{/js/script.js}"></script>
+	
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+	
+	
+		function deleteContact(cid){
+			
+			Swal.fire({
+				  title: 'Are you sure?',
+				  text: "Do You want to delete this Contact!!!!",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: 'Yes, delete it!'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+			
+				   window.location= "/user/delete/" + cid;
+				   
+				  }
+				})
+		
+		}
+		
+		function deleteUser(id){
+			
+			Swal.fire({
+				  title: 'Are you sure?',
+				  text: "Do You want to delete your Account???",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: 'Yes, delete it!'
+				}).then((result) => {
+				  if (result.isConfirmed) {
+			
+				   window.location= "/delete/" + id;
+				   
+				  }
+				})
+		
+		}
+		
+		
+		
+	</script>
+	
+</body>
+</html>

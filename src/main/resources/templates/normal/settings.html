@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="normal/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title th:text="${title}">This is User Settings Page</title>
+</head>
+<body>
+	<section>
+
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card me-3">
+					<div class="card-body">
+						<div class="container">
+
+							<h3 class="my-3">Change Password</h3>
+
+							<form th:action="@{/user/change-password}" method="post">
+
+								<!-- Old Password -->
+								<div class="mb-3">
+
+									<input name="oldPassword" type="password" class="form-control"
+										placeholder="Enter Old Password" required />
+
+								</div>
+
+								<!-- New Password -->
+								<div class="mb-3">
+
+									<input name="newPassword" type="password" class="form-control"
+										placeholder="Enter New Password" required />
+
+								</div>
+
+								<div class="container text-center">
+									<button class="btn btn-success bg-primary" type="submit">Change</button>
+									<button class="btn btn-warning" type="reset">Reset</button>
+								</div>
+
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- JS to make active link of sidebar have different block color -->
+		<script>
+			
+			$(document).ready(() => {
+				
+				$(".item").removeClass("active");
+				$("#settings-link").addClass("active");
+			});
+		
+		</script>
+
+	</section>
+</body>
+</html>

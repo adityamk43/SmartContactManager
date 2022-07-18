@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="normal/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title th:text="${title}">This is Add Contact Page</title>
+</head>
+<body>
+	<section>		
+		<!-- Contact Form -->
+		<div class="card me-3" >
+			<div class="card-body">
+				<h2 class="card-title text-center my-3">Add Contact</h2>
+				<div class="container-fluid mt-2">
+					<div class="row">
+						<div class="col-md-8 offset-md-2">
+						
+							<form action="#" 
+							th:action="@{/user/process-contact}"
+							th:object="${contact}"
+							enctype="multipart/form-data" 
+							method="post"
+							class="mt-2">
+							
+								<!-- Name -->
+								<div class="mb-4">
+    							<!-- 	<label class="form-label" for="autoSizingInputGroup">Username</label> -->
+    								<div class="input-group">
+      									<div class="input-group-text"><i class="fa-solid fa-plus"></i></div>
+      									<input type="text" 
+      									name="name"
+      									class="form-control" 
+      									id="autoSizingInputGroup" 
+      									required
+      									placeholder="Enter Name Here">
+    								</div>
+								</div>
+							
+								<!-- NickName -->
+								<div class="mb-4">
+    							<!-- 	<label class="form-label" for="autoSizingInputGroup1">Username</label> -->
+    								<div class="input-group">
+      									<div class="input-group-text"><i class="fa-solid fa-signature"></i></div>
+      									<input type="text" 
+      									name="nickname"
+      									class="form-control" 
+      									id="autoSizingInputGroup1" 
+      									placeholder="Enter Nickname Here">
+    								</div>
+								</div>
+							
+								<!-- Phone -->
+								<div class="mb-4">
+    							<!-- 	<label class="form-label" for="autoSizingInputGroup2">Username</label> -->
+    								<div class="input-group">
+      									<div class="input-group-text"><i class="fa-solid fa-phone"></i></div>
+      									<input type="number" 
+      									name="phone"
+      									class="form-control" 
+      									id="autoSizingInputGroup2" 
+      									placeholder="Enter Phone Number Here"
+      									required min="1000000000" max="9999999999"
+      									oninvalid="this.setCustomValidity('Enter Valid 10 digit Phone Number Here')"
+    									oninput="this.setCustomValidity('')">
+    								</div>
+								</div>
+							
+								<!-- Email -->
+								<div class="mb-4">
+    							<!-- 	<label class="form-label" for="autoSizingInputGroup3">Username</label> -->
+    								<div class="input-group">
+      									<div class="input-group-text"><i class="fa-solid fa-envelope"></i></div>
+      									<input type="email" 
+      									name="email"
+      									class="form-control" 
+      									id="autoSizingInputGroup3" 
+      									placeholder="Enter Email Here"
+      									required>
+    								</div>
+								</div>
+							
+								<!-- Work -->
+								<div class="mb-4">
+    							<!-- 	<label class="form-label" for="autoSizingInputGroup4">Username</label> -->
+    								<div class="input-group">
+      									<div class="input-group-text"><i class="fa-solid fa-briefcase"></i></div>
+      									<input type="text" 
+      									name="work"
+      									class="form-control" 
+      									id="autoSizingInputGroup4" 
+      									placeholder="Enter Work Here"
+      									required>
+    								</div>
+								</div>
+							
+								<!-- Contact Description -->
+								<div class="mb-4">
+    							<!-- 	<label class="form-label" for="description">Username</label> -->
+    			
+      								<textarea
+      								name="description"
+      								class="form-control" 
+      								id="description" 
+      								rows="6"
+      								placeholder="Enter Contact Description Here"></textarea>
+    							</div>
+    							
+    							<!-- Contact Image -->
+    							<div class="mb-4">
+								  <!-- <label for="formFile" class="form-label">Default file input example</label> -->
+								  <input class="form-control" name="profileImage" type="file" id="formFile">
+								</div>
+								
+								<!-- Submit Button -->
+								<div class="container text-center">
+									<button class="btn bg-primary btn-success">Save Contact</button>
+								</div>
+							
+							</form>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<!-- TinyMCE6 CDN -->
+		<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+	
+		  <script>
+		      tinymce.init({
+		        selector: '#description'
+		      });
+    	</script>
+		
+		<!-- JS to make active link of sidebar have different block color -->
+		<script>
+			
+			$(document).ready(() => {
+				
+				$(".item").removeClass("active");
+				$("#add-contact-link").addClass("active");
+			});
+		
+		</script>
+		
+	</section>
+</body>
+</html>

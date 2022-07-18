@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="normal/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title th:text="${title}">This is User Dashboard Page</title>
+</head>
+<body>
+	<section>
+		<div class="container mt-3">
+			<div class="card">
+				<div class="card-body my-5 mx-4">
+				
+					<div class="text-center">
+						<img style="width: 200px; height: 200px;" class="my_profile_picture img-fluid" th:src="@{'/img/' + ${user.getImageUrl()}}" alt="PFP" />				
+					</div>
+				
+					<div class="text-center fst-italic mt-3 fs-4 fw-semibold">
+						Start Adding Your Contacts...
+					</div>
+					
+					<div class="d-grid gap-1 mt-3" >
+						<a th:href="@{/user/add-contact}" class="btn bg-primary btn-success">Add Contacts</a>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+		<!-- JS to make active link of sidebar have different block color -->
+		<script>
+			
+			$(document).ready(() => {
+				
+				$(".item").removeClass("active");
+				$("#home-link").addClass("active");
+			});
+		
+		</script>
+		
+	</section>
+</body>
+</html>

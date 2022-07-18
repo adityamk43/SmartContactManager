@@ -1,0 +1,296 @@
+body {
+	background: #e2e2e2 !important;
+}
+
+.bg-primary {
+	background: #009688 !important;
+}
+
+.banner {
+	width: 100%;
+	height: 93vh;
+	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+		url(../img/banner.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	color: white;
+}
+
+.my-card {
+	padding: 20px;
+	background: #ffffff;
+}
+
+#login .container #login-row #login-column #login-box {
+	margin-top: 120px;
+	max-width: 600px;
+	height: 460px;
+	border: 1px solid #9C9C9C;
+	background-color: white;
+}
+
+#login .container #login-row #login-column #login-box #login-form {
+	padding: 20px;
+}
+
+/* #register-link */
+/* { */
+/* /* 	margin-top: -90px; */ */
+/* } */
+
+#login .container #login-row #login-column #login-box #login-form #register-link a:link {
+  text-decoration: none;
+}
+
+#login .container #login-row #login-column #login-box #login-form #register-link a:visited {
+  text-decoration: none;
+}
+
+#login .container #login-row #login-column #login-box #login-form #register-link a:hover {
+  text-decoration: underline;
+}
+
+#login .container #login-row #login-column #login-box #login-form #register-link a:active {
+  text-decoration: underline;
+}
+
+/* sidebar style */
+
+.sidebar{
+	width:18%;
+	background: white;
+	height:100vh;
+	padding-top: 45px;
+	position: fixed;
+	z-index: 100;
+}
+
+.content{
+	margin-left: 20%;
+}
+
+
+@media only screen and (max-width: 600px)
+{
+	.sidebar{
+		display:none;
+		width:80%;
+		background: white;
+		height:100vh;
+		padding-top: 20px;
+		position: fixed;
+		z-index: 100;
+	}
+	
+	.content{
+		margin-left: 5% ;
+	}
+	
+}
+
+
+
+/*Animating Sidebar to open*/
+.sidebar_out {
+    
+    animation-name: sidebar_animate; 
+    animation-duration: 1s
+}
+@keyframes sidebar_animate  {from {
+    transform: rotateY(-20deg);
+    margin-left: -18%;
+  }
+
+  to {
+    margin-left: 0%;
+  }
+
+}
+
+
+/*Animating content side to move rightwards*/
+
+.content_right  {
+    
+    animation-name: content_animate; 
+    animation-duration: 0.8s
+}
+@keyframes content_animate  {from {
+    transform: rotateY(-20deg);
+    margin-left: 2%;
+  }
+
+  to {
+    margin-left: 20%;
+  }
+
+}
+
+/*Closing sidebar animation */
+
+.slide_close  {
+    
+    animation-name: reverse; 
+    animation-duration: 1s
+}
+@keyframes reverse  {from {
+    transform: rotateY(-20deg);
+    margin-left: 0%;
+  }
+
+  to {
+    margin-left: -18%;
+  }
+
+}
+
+/* moving content to full view*/
+
+.content_full  {
+    
+    animation-name: reverse_content; 
+    animation-duration: 1s
+}
+@keyframes reverse_content  {from {
+    transform: rotateY(-20deg);
+    margin-left: 20%;
+  }
+
+  to {
+    margin-left: 2%;
+  }
+
+}
+
+
+.sidebar a{
+	display:block;
+	padding: 20px;
+	text-decoration: none;
+	color: gray;
+	padding: 10px 25px;
+}
+
+.sidebar a:hover
+{
+	background: #e2e2e2;
+}
+
+.sidebar .divider
+{
+	height: .5px;
+	width: 100%;
+	background: #e2e2e2;
+	margin-top: 10px;
+}
+
+.close-button
+{
+	position: absolute;
+	top: 0px;
+	right: 20px;
+	font-size: 36px;
+	cursor: pointer;	
+}
+
+.fa-bars{
+	
+	display: block;
+	background: white;
+	padding: 10px;
+	border-radius: 30%;
+	cursor: pointer;
+	margin-left: 0px !important;
+	/* margin-top: 5px !important; */
+}
+
+.move {
+    transform: rotateX(-20deg);
+}
+
+
+/* Pagination Styles */
+
+
+.page-button
+{
+	border-color: #009688 !important;
+	background: rgb(220,220,220);
+
+}
+
+.page-number-btn
+{	
+	color: #009688 !important;
+	border-color: white !important; 
+
+}
+
+.page-number-btn:hover
+{	
+	background: rgb(220,220,220);
+
+}
+
+.active-color
+{
+	background: #009688 !important;
+	border-color: #009688 !important;
+/* 	border-color:  white  !important; */
+	color: white !important;
+}
+
+/*Profile Picture View Contacts*/
+.my_profile_picture
+{
+	width: 35px;
+	height: 35px;
+	object-fit: cover;
+	border-radius: 50%;
+/* 	border: 1px solid black; */
+}
+
+
+/* SEARCH CONTACTS STYLES */
+
+.search-container{
+	position: relative;
+	box-shadow: 4px 5px 10px grey;
+}
+
+.search-input{
+	box-shadow: 4px 6px 1px grey;
+	
+}
+
+.search-result{
+	position: absolute;
+	background: white;
+	width: 100%;
+	padding: 10px;
+/* 	border: 1px solid grey; */
+	box-shadow: 4px 10px 10px grey;
+	/* border-bottom-right-radius: 15px;
+	border-bottom-left-radius: 15px; */
+	display: none;
+	
+}
+
+/* changing search bar results border to white  */
+.list-group-item
+{
+	border-color: white !important;
+}
+
+/* changing view contacts email color */
+.anchor-email:link, .anchor-email:visited, .anchor-email:hover, .anchor-email:active{
+	color: #009688 !important;
+	text-decoration: none !important;
+}
+
+/* for sidebar setting active page block color */
+.active
+{
+	background: #009688 !important;
+	color: white !important;
+}

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="normal/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title th:text="${title}">This is User Profile Page</title>
+</head>
+<body>
+	<section>
+	
+		<div class="card me-3">
+			<div class="card-body text-center">
+					
+				<div class="container">
+					<img style="width: 200px; height: 200px;" class="my_profile_picture img-fluid" th:src="@{'/img/' + ${user.getImageUrl()}}" alt="PFP" />
+					<!-- <h2 class="mt-3">PROFILE PAGE</h2> -->
+					<h2 class="mt-3"><span  th:text="${#strings.toUpperCase(user.name)}"></span></h2>
+					<div class="table-responsive">
+						<table class="mt-4 table ">
+						  <tbody>
+						    <!-- ID -->
+						    <tr>
+						      <th scope="row">USER ID</th>
+						      <th scope="row">U<span th:text="${user.id}"></span></th>
+						      
+						    </tr>
+						    
+						    <!-- Email -->
+						    <tr>
+						      <th scope="row">Email</th>
+						      <td><span th:text="${user.email}"></span></td>
+						      
+						    </tr>
+						    
+						    <!-- Role -->
+						    <tr>
+						      <th scope="row">Role</th>
+						      <td><span th:text="${user.role}"></span></td>
+						      
+						    </tr>
+						    
+						    <!-- Account Active -->
+						    <tr>
+						      <th scope="row">Account Active</th>
+						      <td><span th:text="${user.enabled}"></span></td>
+						      
+						    </tr>
+						    <!-- About -->
+						    <tr>
+						      <th scope="row">About</th>
+						      <td><span th:text="${user.about}"></span></td>
+						      
+						    </tr>
+						    
+						  </tbody>
+						</table>		
+					</div>
+					
+					
+					<!-- Update/Delete Buttons -->
+					<div class="container text-center">
+					
+						<form class="d-inline-block"
+							th:action="@{'/update-user/' + ${user.id}}" 
+							method="post">
+							
+							<button type="submit" class="btn btn-block btn-success">Update</button>
+				
+						</form>
+					
+						<button th:onclick="|deleteUser(${user.id})|"  class="btn btn-danger d-inline-block">Delete</button>
+				
+					</div>
+					
+				</div>
+			</div>
+		
+			<!-- JS to make active link of sidebar have different block color -->
+			<script>
+				
+				$(document).ready(() => {
+					
+					$(".item").removeClass("active");
+					$("#profile-link").addClass("active");
+				});
+			
+			</script>
+		
+		</div>
+		
+	</section>
+</body>
+</html>

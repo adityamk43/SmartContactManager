@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="normal/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title th:text="${title}">This is Show Contacts Page</title>
+</head>
+<body>
+	<section>
+		
+		<div th:if="${!contacts.empty}" class="card me-3">
+			<div class="card-body">
+				<h1 class="text-center">Your Contacts</h1>
+				
+				<!-- Search -->
+				<div class="search-container mt-4 mb-2 rounded-pill">
+				
+					<input onkeyup="search()" id="search-input" type="text" class="form-control rounded-pill" placeholder="Search Your Contacts" />
+				
+					<div class="search-result rounded">
+						
+						<!-- Result goes here -->
+					</div>
+				
+				</div>
+				
+				<!-- Contacts Table -->
+				<div class="table-responsive">
+					<table class="mt-4 table table-striped table-hover table-bordered text-center">
+					  <thead class="table-dark">
+					    <tr>
+					      <th scope="col">Contact ID</th>
+					      <th scope="col">Name</th>
+					      <th scope="col">Email</th>
+					      <th scope="col">Phone Number</th>
+					      <th scope="col">Action</th>
+					    </tr>
+					  </thead>
+					  
+					 <tbody class="table-group-divider">
+					    
+	
+					    <tr th:each="c : ${contacts}">
+					      <th scope="row" th:text="${'C' + c.getcId()}"></th>
+					      <td>
+					      	<img class="my_profile_picture"th:src="@{'/img/' + ${c.getImage()}}" alt="PFP" />
+					      	<span th:text="${c.getName()}" ></span>
+					      </td>
+					      <td>
+					      	<a th:href="@{'/user/' + ${c.cId} + '/contact'}" class="anchor-email">
+					      		<span th:text="${c.getEmail()}" ></span>
+					      	</a>
+					      </td>
+					      <td th:text="${c.getPhone()}"></td>
+					      
+					      <!-- Update and Delete Actions -->
+					      <td class="text-center fs-5">
+					     	<a href="#" th:onclick="|deleteContact(${c.cId})|" 
+					     	data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Contact!!"
+					     	class="text-danger me-2"><i class="fa-solid fa-trash-can"></i></a>				     	
+						    
+						    <form th:action="@{'/user/update-contact/' + ${c.cId}}" method="post" class="d-inline">
+							    <button type="submit" 
+									    class="btn btn-link btn-lg text-success"
+									    data-bs-toggle="tooltip" 
+									    data-bs-placement="top" 
+									    title="Update Contact">
+							    	
+							    	<i class="fa-solid fa-pen-nib"></i>
+							    
+							    </button>			 
+							</form>    	
+					      </td>
+					    
+					    </tr>
+					    
+					  </tbody>
+					</table>
+				</div>
+				<!-- Paginator -->
+				<nav aria-label="Page navigation example" class="mt-5">
+				  <ul class="pagination">
+		
+				    <li th:if="${currentPage != 0}" class="page-item me-2">
+				    
+					    <a class="page-link rounded bg-primary text-light page-button" href="#"
+					       th:href="@{'/user/show-contacts/' + ${currentPage-1}}">
+					    	Previous
+					    </a>
+					    
+				    </li>
+		
+				    <li th:classappend="${currentPage==i-1} ? 'active' : '' " 
+				    	th:each="i : ${#numbers.sequence(1, totalPages)}" 
+				    	class="page-item me-2 rounded-circle">
+				    	
+				    	<a th:classappend="${currentPage==i-1} ? 'active-color' : '' " 
+					    	class="page-link rounded-circle  text-light page-number-btn"  
+					    	th:href="@{'/user/show-contacts/' + ${i-1}}" 
+					    	th:text="${i}"></a>
+				    
+				    </li>
+		
+				    <li th:if="${currentPage+1 != totalPages}" class="page-item me-2" >
+					    <a class="page-link rounded bg-primary text-light page-button" 
+					    th:href="@{'/user/show-contacts/' + ${currentPage+1}}">
+					    	Next
+					    </a>
+				    </li>
+		
+				  </ul>
+				</nav>
+				
+				
+			</div>
+		</div>
+		
+		
+		<div class="alert alert-warning text-center me-3" th:unless="${!contacts.empty}">
+			You have not Added Contacts Yet!!
+		</div>
+		
+		
+		<!-- JS to make active link of sidebar have different block color -->
+		<script>
+			
+			$(document).ready(() => {
+				
+				$(".item").removeClass("active");
+				$("#view-contacts-link").addClass("active");
+			});
+		
+		</script>
+	
+	</section>
+</body>
+</html>

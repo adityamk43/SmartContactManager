@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>This is Login Page</title>
+</head>
+<body>
+	<section>
+	
+		<div id="login">
+			<div class="container">
+				<div id="login-row"
+					class="row justify-content-center align-items-center">
+					<div id="login-column" class="col-md-6">
+						<div id="login-box" class="col-md-12 p-4 rounded mt-5">
+							<form id="login-form" action="#" th:action="@{/dologin}" method="post">
+								
+								
+								<h3 class="text-center text-info">Login</h3>
+								
+								
+								<div th:if="${param.error}" class="alert alert-danger">
+									Invalid Email or Password
+								</div>
+								
+								
+								<div th:if="${param.logout}" class="alert alert-success">
+									You have been Logged Out Successfully!!
+								</div>
+								
+								
+								
+								<div th:if="${param.change}" class="alert alert-success">
+									<span th:text="${param.change}"></span>
+								</div>
+								
+								
+								<div class="mb-3">
+									<label for="username" class="text-info">Email:</label><br>
+									
+									<input type="text" name="username" id="username"
+										class="form-control">
+								</div>
+								
+								<div class="mb-3">
+									
+									<label for="password" class="text-info">Password:</label><br>
+									
+									<input type="password" name="password" id="password"
+										class="form-control">
+								</div>
+								
+								<div class="mb-1">
+									<div class="row g-3">
+<!--   										<div class="col"> -->
+<!-- 											<label for="remember-me" class="text-info"><span>Remember me</span> <span> -->
+<!-- 											<input id="remember-me" name="remember-me" type="checkbox"></span></label> -->
+<!-- 										</div> -->
+										
+  										<div class="col">
+											<a th:href="@{/signup}" class="text-info text-end d-block mb-3">Register here</a>
+										</div>	
+									<!-- <br /> -->
+
+									</div>
+								</div>							
+
+								
+								<div class="mb-3">
+									<div class="row g-3">
+										
+								
+  										<div class="col">
+											<input type="submit"
+												name="submit" 
+												class="btn btn-info btn-md mt-3" 
+												value="submit">
+										</div>
+  										<div class="col">
+											<a th:href="@{/forgot}" class="text-info text-end d-block">ForgotPassword</a>
+										</div>	
+									<!-- <br /> -->
+									</div>							
+								</div>
+								
+								
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
