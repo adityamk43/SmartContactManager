@@ -94,10 +94,11 @@ public class HomeController {
 				//upload the file to the folder and update the image file name to the user
 				user.setImageUrl(imageFile.getOriginalFilename());
 				
-				File saveFile = new ClassPathResource("/static/img/").getFile();
+//				File saveFile = new ClassPathResource("/static/img/").getFile();
 				
 				//to make contact image different with same name for different user add extra pathfile name like date or something
-				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + imageFile.getOriginalFilename());
+//				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + imageFile.getOriginalFilename());
+				Path path = Paths.get("/static/img/" + File.separator + imageFile.getOriginalFilename());
 				
 				Files.copy(imageFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 				
