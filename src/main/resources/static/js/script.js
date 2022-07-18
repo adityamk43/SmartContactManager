@@ -61,7 +61,8 @@ const search = () => {
 		//console.log(query);
 		
 		//sending request to server
-		let url = `http://localhost:8084/search/${query}`;
+//		let url = `http://localhost:8084/search/${query}`;
+		let url = `https://aditya-smart-contact-manager.herokuapp.com/search/${query}`;
 
 		fetch(url).then(response => {
 			return response.json();

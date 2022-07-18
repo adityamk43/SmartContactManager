@@ -125,7 +125,7 @@ public class HomeController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			m.addAttribute("user", user);
-			s.setAttribute("message", new Message("Somethin Went Wrong !! " + e.getMessage(), "alert-danger"));
+			s.setAttribute("message", new Message("Something Went Wrong !! " + e.getMessage(), "alert-danger"));
 			return "signup";
 		}
 	}
