@@ -44,24 +44,17 @@ public class HomeController {
 
 	
 	//FOR DECALRING UPLOAD LOCATION FOR HEROKU
-	private String uploadLocation1; 
-	private String uploadLocation2; 
+	private String uploadLocation; 
 	
-	public HomeController(@Value("${upload.location1}") String uploadLocation1, @Value("${upload.location2}") String uploadLocation2) throws IOException
+	public HomeController(@Value("${upload.location}") String uploadLocation) throws IOException
 	{
-		this.uploadLocation1 = uploadLocation1;
-		this.uploadLocation2 = uploadLocation2;
+		this.uploadLocation = uploadLocation;
 		
-		var uploadPath1 = Paths.get(uploadLocation1);
-		var uploadPath2 = Paths.get(uploadLocation2);
+		var uploadPath = Paths.get(uploadLocation);
 		
-		if (!Files.exists(uploadPath1))
+		if (!Files.exists(uploadPath))
 		{
-			Files.createDirectory(uploadPath1);
-		}
-		if (!Files.exists(uploadPath2))
-		{
-			Files.createDirectory(uploadPath2);
+			Files.createDirectory(uploadPath);
 		}
 		
 	}
@@ -142,11 +135,9 @@ public class HomeController {
 				user.setImageUrl(imageFileName);
 				
 				var filename = imageFileName;
-				var dest = Paths.get(uploadLocation1 + "/" + filename);
-				var dest2 = Paths.get(uploadLocation2 + "/" + filename);
+				var dest = Paths.get(uploadLocation + "/" + filename);
 					
 				Files.copy(imageFile.getInputStream(), dest);
-				Files.copy(imageFile.getInputStream(), dest2);
 					
 				
 				System.out.println("IMAGE SAVE FORMAT ID : " + user.getName() + timestamp.getTime() + imageFile.getOriginalFilename() );
@@ -218,7 +209,7 @@ public class HomeController {
 						
 						//HEROKU FILE UPLOADING PATH
 						
-						var dest = Paths.get(uploadLocation1 + "/" + imageFileName);
+						var dest = Paths.get(uploadLocation + "/" + imageFileName);
 						Files.deleteIfExists(dest);
 					} 
 					catch (IOException e) {
@@ -290,7 +281,7 @@ public class HomeController {
 					//HEROKU FILE DELETION
 					
 					//old way (new way is done in delete handler by me)
-					File deleteFile = new File(uploadLocation1 + "/" + oldUserDetail.getImageUrl());
+					File deleteFile = new File(uploadLocation + "/" + oldUserDetail.getImageUrl());
 					deleteFile.delete();
 				}
 				//update new photo
@@ -308,11 +299,9 @@ public class HomeController {
 				
 				
 				var filename = imageFileName;
-				var dest = Paths.get(uploadLocation1 + "/" + filename);
-				var dest2 = Paths.get(uploadLocation2 + "/" + filename);
+				var dest = Paths.get(uploadLocation + "/" + filename);
 									
 				Files.copy(imgFile.getInputStream(), dest);
-				Files.copy(imgFile.getInputStream(), dest2);
 					
 			
 				
