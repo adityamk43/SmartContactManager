@@ -46,7 +46,7 @@
 				
 					<li class="nav-item"><a href="#" class="nav-link ">
 						<img style="width: 30px; height: 30px;" class="my_profile_picture img-fluid" 
-							th:src="@{'/target/classes/static/img' + ${user.getImageUrl()}}" alt="PFP" />
+							th:src="@{'/img/' + ${user.getImageUrl()}}" alt="PFP" />
 						
 						<span th:text="${user.name}"></span></a>
 					</li>
