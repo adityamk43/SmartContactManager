@@ -106,7 +106,7 @@ public class EmailService {
 //		
 //		SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 //		
-//		simpleMailMessage.setFrom("adityamk43@gmail.com");
+//		simpleMailMessage.setFrom("abc@gmail.com");
 //		simpleMailMessage.setSubject(subject);
 //		simpleMailMessage.setTo(to);
 //		simpleMailMessage.setText(message);
