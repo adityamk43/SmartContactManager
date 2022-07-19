@@ -43,21 +43,21 @@ public class HomeController {
 	private UserRepository userRepository;
 
 	
-	//FOR DECALRING UPLOAD LOCATION FOR HEROKU
-	private String uploadLocation; 
-	
-	public HomeController(@Value("${upload.location}") String uploadLocation) throws IOException
-	{
-		this.uploadLocation = uploadLocation;
-		
-		var uploadPath = Paths.get(uploadLocation);
-		
-		if (!Files.exists(uploadPath))
-		{
-			Files.createDirectory(uploadPath);
-		}
-		
-	}
+	//FOR DECLARING UPLOAD LOCATION FOR HEROKU
+//	private String uploadLocation; 
+//	
+//	public HomeController(@Value("${upload.location}") String uploadLocation) throws IOException
+//	{
+//		this.uploadLocation = uploadLocation;
+//		
+//		var uploadPath = Paths.get(uploadLocation);
+//		
+//		if (!Files.exists(uploadPath))
+//		{
+//			Files.createDirectory(uploadPath);
+//		}
+//		
+//	}
 	
 	
 	// Home Handler
@@ -113,35 +113,36 @@ public class HomeController {
 				user.setImageUrl("user_default .png");
 			}
 			else {
-//				//upload the file to the folder and update the image file name to the user
-//				user.setImageUrl(imageFile.getOriginalFilename());
-//				
-//				File saveFile = new ClassPathResource("/static/img/").getFile();
-//				
-//				//to make contact image different with same name for different user add extra pathfile name like date or something
-//				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + imageFile.getOriginalFilename());
-//				
-//				Files.copy(imageFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				//upload the file to the folder and update the image file name to the user
+				user.setImageUrl(imageFile.getOriginalFilename());
+				
+				File saveFile = new ClassPathResource("/static/img/").getFile();
+				
+				//to make contact image different with same name for different user add extra pathfile name like date or something
+				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + imageFile.getOriginalFilename());
+				
+				Files.copy(imageFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 				
 				
 				
 				//HEROKU TEST UPLOADING PROFILE PIC
 				
-				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//				
+//				//upload the file to the folder and update the image file name to the user
+//				String imageFileName = user.getName() + timestamp.getTime() + imageFile.getOriginalFilename();
+//				
+//				user.setImageUrl(imageFileName);
+//				
+//				var filename = imageFileName;
+//				var dest = Paths.get(uploadLocation + "/" + filename);
+//					
+//				Files.copy(imageFile.getInputStream(), dest);
+//					
+//				
+//				System.out.println("IMAGE SAVE FORMAT ID : " + user.getName() + timestamp.getTime() + imageFile.getOriginalFilename() );
+//				System.out.println("DEST: " + dest);
 				
-				//upload the file to the folder and update the image file name to the user
-				String imageFileName = user.getName() + timestamp.getTime() + imageFile.getOriginalFilename();
-				
-				user.setImageUrl(imageFileName);
-				
-				var filename = imageFileName;
-				var dest = Paths.get(uploadLocation + "/" + filename);
-					
-				Files.copy(imageFile.getInputStream(), dest);
-					
-				
-				System.out.println("IMAGE SAVE FORMAT ID : " + user.getName() + timestamp.getTime() + imageFile.getOriginalFilename() );
-				System.out.println("DEST: " + dest);
 				System.out.println("User Image is Uploaded");
 			}
 			
@@ -202,15 +203,15 @@ public class HomeController {
 					
 					try {
 						
-//						userFile = new ClassPathResource("/static/img/").getFile();
-//						Path path = Paths.get(userFile.getAbsolutePath() + File.separator + imageFileName);
+						userFile = new ClassPathResource("/static/img/").getFile();
+						Path path = Paths.get(userFile.getAbsolutePath() + File.separator + imageFileName);
 						
 						
 						
 						//HEROKU FILE UPLOADING PATH
 						
-						var dest = Paths.get(uploadLocation + "/" + imageFileName);
-						Files.deleteIfExists(dest);
+//						var dest = Paths.get(uploadLocation + "/" + imageFileName);
+//						Files.deleteIfExists(dest);
 					} 
 					catch (IOException e) {
 						System.out.println("No User Image File");
@@ -272,41 +273,41 @@ public class HomeController {
 					
 					//delete old photo
 					
-//					//old way (new way is done in delete handler by me)
-//					File deleteFile = new ClassPathResource("/static/img/").getFile();
-//					File f1 = new File(deleteFile, oldUserDetail.getImageUrl());
-//					f1.delete();
+					//old way (new way is done in delete handler by me)
+					File deleteFile = new ClassPathResource("/static/img/").getFile();
+					File f1 = new File(deleteFile, oldUserDetail.getImageUrl());
+					f1.delete();
 					
 					
 					//HEROKU FILE DELETION
 					
-					//old way (new way is done in delete handler by me)
-					File deleteFile = new File(uploadLocation + "/" + oldUserDetail.getImageUrl());
-					deleteFile.delete();
+//					//old way (new way is done in delete handler by me)
+//					File deleteFile = new File(uploadLocation + "/" + oldUserDetail.getImageUrl());
+//					deleteFile.delete();
 				}
 				//update new photo
 				
-//				File saveFile = new ClassPathResource("/static/img/").getFile();				
-//				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + imgFile.getOriginalFilename());
-//				
-//				Files.copy(imgFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-//				user.setImageUrl(imgFile.getOriginalFilename());
+				File saveFile = new ClassPathResource("/static/img/").getFile();				
+				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + imgFile.getOriginalFilename());
+				
+				Files.copy(imgFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				user.setImageUrl(imgFile.getOriginalFilename());
 				
 				//HEROKU FILE UPLOADING
 				
-				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-				String imageFileName = oldUserDetail.getName() + timestamp.getTime() + imgFile.getOriginalFilename();
-				
-				
-				var filename = imageFileName;
-				var dest = Paths.get(uploadLocation + "/" + filename);
-									
-				Files.copy(imgFile.getInputStream(), dest);
-					
-			
-				
-				user.setImageUrl(imageFileName);
-			
+//				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//				String imageFileName = oldUserDetail.getName() + timestamp.getTime() + imgFile.getOriginalFilename();
+//				
+//				
+//				var filename = imageFileName;
+//				var dest = Paths.get(uploadLocation + "/" + filename);
+//									
+//				Files.copy(imgFile.getInputStream(), dest);
+//					
+//			
+//				
+//				user.setImageUrl(imageFileName);
+//			
 			
 			
 			}

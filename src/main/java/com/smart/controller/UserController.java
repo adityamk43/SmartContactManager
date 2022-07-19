@@ -50,21 +50,21 @@ public class UserController {
 	private ContactRepository contactRepository;
 	
 	
-	//FOR DECALRING UPLOAD LOCATION FOR HEROKU
-		private String uploadLocation; 
-		
-		public UserController(@Value("${upload.location}") String uploadLocation) throws IOException
-		{
-			this.uploadLocation = uploadLocation;
-			
-			var uploadPath = Paths.get(uploadLocation);
-			
-			if (!Files.exists(uploadPath))
-			{
-				Files.createDirectory(uploadPath);
-			}
-			
-		}
+	//FOR DECLARING UPLOAD LOCATION FOR HEROKU
+//		private String uploadLocation; 
+//		
+//		public UserController(@Value("${upload.location}") String uploadLocation) throws IOException
+//		{
+//			this.uploadLocation = uploadLocation;
+//			
+//			var uploadPath = Paths.get(uploadLocation);
+//			
+//			if (!Files.exists(uploadPath))
+//			{
+//				Files.createDirectory(uploadPath);
+//			}
+//			
+//		}
 	
 	
 	
@@ -127,28 +127,28 @@ public class UserController {
 			}
 			else {
 				//upload the file to the folder and update the image file name to the contact
-//				contact.setImage(imageFile.getOriginalFilename());
-//				
-//				File saveFile = new ClassPathResource("/static/img/").getFile();
-//				
-//				//to make contact image different with same name for different user add extra pathfile name like date or something
-//				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + imageFile.getOriginalFilename());
-//				
-//				Files.copy(imageFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				contact.setImage(imageFile.getOriginalFilename());
+				
+				File saveFile = new ClassPathResource("/static/img/").getFile();
+				
+				//to make contact image different with same name for different user add extra pathfile name like date or something
+				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + imageFile.getOriginalFilename());
+				
+				Files.copy(imageFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 				
 				
 				
 				//HEROKU UPLOAD CONTACT PROFILE PIC
-				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-				String imageFileName = contact.getName() + timestamp.getTime() + imageFile.getOriginalFilename();
-				
-				contact.setImage(imageFileName);
-				
-				var filename = imageFileName;
-				var dest = Paths.get(uploadLocation + "/" + filename);
-				
-				Files.copy(imageFile.getInputStream(), dest);
-				
+//				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//				String imageFileName = contact.getName() + timestamp.getTime() + imageFile.getOriginalFilename();
+//				
+//				contact.setImage(imageFileName);
+//				
+//				var filename = imageFileName;
+//				var dest = Paths.get(uploadLocation + "/" + filename);
+//				
+//				Files.copy(imageFile.getInputStream(), dest);
+//				
 				
 				System.out.println("Contact Image is Uploaded");
 			}
@@ -283,37 +283,17 @@ public class UserController {
 			
 			//deleting contact profile photo
 			
-//			String imageFileName = contact.getImage();
-//			File contactFile;
-//			
-//			//if image is not default.png
-//			if (!imageFileName.equals("default.jpg")) {
-//				
-//				try {
-//					
-//					contactFile = new ClassPathResource("/static/img/").getFile();
-//					Path path = Paths.get(contactFile.getAbsolutePath() + File.separator + imageFileName);
-//					Files.deleteIfExists(path);
-//				} 
-//				catch (IOException e) {
-//					System.out.println("No Contact Image File");
-//					e.printStackTrace();
-//				}
-//			}
-			
-			
-			//HEROKU DELETE CONTACT PROFILE PIC
-			
 			String imageFileName = contact.getImage();
+			File contactFile;
 			
 			//if image is not default.png
 			if (!imageFileName.equals("default.jpg")) {
 				
 				try {
 					
-					var dest = Paths.get(uploadLocation + "/" + imageFileName);
-					Files.deleteIfExists(dest);
-
+					contactFile = new ClassPathResource("/static/img/").getFile();
+					Path path = Paths.get(contactFile.getAbsolutePath() + File.separator + imageFileName);
+					Files.deleteIfExists(path);
 				} 
 				catch (IOException e) {
 					System.out.println("No Contact Image File");
@@ -321,6 +301,26 @@ public class UserController {
 				}
 			}
 			
+			
+			//HEROKU DELETE CONTACT PROFILE PIC
+			
+//			String imageFileName = contact.getImage();
+//			
+//			//if image is not default.png
+//			if (!imageFileName.equals("default.jpg")) {
+//				
+//				try {
+//					
+//					var dest = Paths.get(uploadLocation + "/" + imageFileName);
+//					Files.deleteIfExists(dest);
+//
+//				} 
+//				catch (IOException e) {
+//					System.out.println("No Contact Image File");
+//					e.printStackTrace();
+//				}
+//			}
+//			
 			
 			s.setAttribute("message", new Message("Contact Deleted Successfully", "info"));
 		}
@@ -372,38 +372,38 @@ public class UserController {
 					
 					//delete old photo
 					
-//					//old way (new way is done in delete handler by me)
-//					File deleteFile = new ClassPathResource("/static/img/").getFile();
-//					File f1 = new File(deleteFile, oldcontactDetail.getImage());
-//					f1.delete();
+					//old way (new way is done in delete handler by me)
+					File deleteFile = new ClassPathResource("/static/img/").getFile();
+					File f1 = new File(deleteFile, oldcontactDetail.getImage());
+					f1.delete();
 					
 					//HEROKU DELETE CONTACT PROFILE PIC
 					
-					var dest = Paths.get(uploadLocation + "/" + oldcontactDetail.getImage());
-					Files.deleteIfExists(dest);
+//					var dest = Paths.get(uploadLocation + "/" + oldcontactDetail.getImage());
+//					Files.deleteIfExists(dest);
 					
 				}
 				//update new photo
 				
-//				File saveFile = new ClassPathResource("/static/img/").getFile();				
-//				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + imgFile.getOriginalFilename());
-//				
-//				Files.copy(imgFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-//				
-//				contact.setImage(imgFile.getOriginalFilename());
+				File saveFile = new ClassPathResource("/static/img/").getFile();				
+				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + imgFile.getOriginalFilename());
+				
+				Files.copy(imgFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				
+				contact.setImage(imgFile.getOriginalFilename());
 				
 				//HEROKU CONTACT FILE UPLOADING
 				
-				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-				String imageFileName = oldcontactDetail.getName() + timestamp.getTime() + imgFile.getOriginalFilename();
-				
-				
-				var filename = imageFileName;
-				var dest = Paths.get(uploadLocation + "/" + filename);
-									
-				Files.copy(imgFile.getInputStream(), dest);
-					
-				contact.setImage(imageFileName);
+//				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//				String imageFileName = oldcontactDetail.getName() + timestamp.getTime() + imgFile.getOriginalFilename();
+//				
+//				
+//				var filename = imageFileName;
+//				var dest = Paths.get(uploadLocation + "/" + filename);
+//									
+//				Files.copy(imgFile.getInputStream(), dest);
+//					
+//				contact.setImage(imageFileName);
 				
 				
 			
