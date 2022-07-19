@@ -1,50 +1,87 @@
 console.log("this is script file");
 
+var mediaquery = window.matchMedia("(max-width: 600px)")
 //implementing toogle sidebar function
 //using arrow
 const toggleSidebar = () => {
 
-	//closing sidebar
-	if ($(".sidebar").is(":visible")) {
-
-		//for closing sidebar
-		
-		//removing opening animation
-		$(".sidebar").removeClass("sidebar_out")
-		$(".content").removeClass("content_right")
-		
-		//adding closing animation
-		$(".sidebar").addClass("slide_close")
-		$(".content").addClass("content_full")
-		
-		
-		$(".content").css("margin-left", "2%");
-		
-		//setting timeout to make display none after animation ends
-		setTimeout(function() {
-			$(".sidebar").css("display", "none");
-		}, 1000);
-
+	//This if block is for media query below or equal to 600px
+	if (mediaquery.matches)
+	{
+		//closing sidebar
+//		if ($(".sidebar").is(":visible")) {
+		if ($(".sidebar").css("display") == "block") {
+	
+			//for closing sidebar
+			
+			$('.sidebar').css("margin-left", "-80%");
+	//		$(".content").css("margin-left", "2%");
+	
+			//setting timeout to make display none after animation/transition ends
+			setTimeout(function() {
+				$(".sidebar").css("display", "none");
+			}, 1000);
+	
+		}
+		//opening sidebar
+		else {
+	
+			$(".sidebar").css("display", "block");
+			
+			setTimeout(function() {
+		//		$(".content").css("margin-left", "20%");
+				$(".sidebar").css("margin-left", "0%");
+			}, 10);
+		}
 	}
-	//opening sidebar
-	else {
-
-		$(".sidebar").css("display", "block");
-		
-		//adding opening sidebar and content-right animations
-		$(".sidebar").addClass("sidebar_out")
-		$(".content").addClass("content_right")
-
-		//removing closing animations		
-		$(".sidebar").removeClass("slide_close")
-		$(".content").removeClass("content_full")
-		
-		
-		$(".content").css("margin-left", "20%");
-		
-		
+	//This block is for large screens media queries above 600px viewport
+	else
+	{
+		//closing sidebar
+		if ($(".sidebar").is(":visible")) {
+	
+			//for closing sidebar
+			
+			/*THIS WAS FOR THE ANIMATION ATTRIBUTES - DISCARDED*/
+			//removing opening animation
+	//		$(".sidebar").removeClass("sidebar_out")
+	//		$(".content").removeClass("content_right")
+	//		
+	//		//adding closing animation
+	//		$(".sidebar").addClass("slide_close")
+	//		$(".content").addClass("content_full")
+			
+			
+			$('.sidebar').css("margin-left", "-18%");
+			$(".content").css("margin-left", "2%");
+	
+			//setting timeout to make display none after animation/transition ends
+			setTimeout(function() {
+				$(".sidebar").css("display", "none");
+			}, 1000);
+	
+		}
+		//opening sidebar
+		else {
+	
+			$(".sidebar").css("display", "block");
+			
+			
+			/*THIS WAS FOR THE ANIMATION ATTRIBUTES - DISCARDED*/
+			//adding opening sidebar and content-right animations
+	//		$(".sidebar").addClass("sidebar_out")
+	//		$(".content").addClass("content_right")
+	//
+			//removing closing animations		
+	//		$(".sidebar").removeClass("slide_close")
+	//		$(".content").removeClass("content_full")
+			
+			setTimeout(function() {
+			$(".content").css("margin-left", "20%");
+			$(".sidebar").css("margin-left", "0%");
+			}, 10);
+		}
 	}
-
 };
 
 const search = () => {

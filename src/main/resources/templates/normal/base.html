@@ -62,12 +62,14 @@
 	<div class="sidebar mt-2">
 		<span onclick="toggleSidebar()" class="close-button">&times;</span>
 	
-		<a id="home-link" href="#" th:href="@{/user/index}" class="item"><i class="fa-solid fa-house-chimney"></i> Home</a>
-		<a id="view-contacts-link" href="#" th:href="@{/user/show-contacts/0}" class="item"><i class="fa-solid fa-id-card"></i> View Contacts</a>
-		<a id="add-contact-link" href="#" th:href="@{/user/add-contact}" class="item"><i class="fa-solid fa-pencil"></i> Add Contacts</a>
-		<a id="profile-link" href="#" th:href="@{/user/profile}" class="item"><i class="fa-solid fa-circle-user"></i> Your Profile</a>
-		<a id="settings-link" href="#" th:href="@{/user/settings}" class="item"><i class="fa-solid fa-gears"></i> Settings</a>
-		<a id="logout-link" href="#" th:href="@{/logout}" class="item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+		<div class="list-item-container">
+			<a id="home-link" href="#" th:href="@{/user/index}" class="item"><i class="fa-solid fa-house-chimney"></i> Home</a>
+			<a id="view-contacts-link" href="#" th:href="@{/user/show-contacts/0}" class="item"><i class="fa-solid fa-id-card"></i> View Contacts</a>
+			<a id="add-contact-link" href="#" th:href="@{/user/add-contact}" class="item"><i class="fa-solid fa-pencil"></i> Add Contacts</a>
+			<a id="profile-link" href="#" th:href="@{/user/profile}" class="item"><i class="fa-solid fa-circle-user"></i> Your Profile</a>
+			<a id="settings-link" href="#" th:href="@{/user/settings}" class="item"><i class="fa-solid fa-gears"></i> Settings</a>
+			<a id="logout-link" href="#" th:href="@{/logout}" class="item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+		</div>
 		<div class="divider"></div>
 
 	</div>
