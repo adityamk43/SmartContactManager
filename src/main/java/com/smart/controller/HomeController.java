@@ -7,11 +7,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.sql.Timestamp;
+
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -27,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.smart.dao.UserRepository;
-import com.smart.entities.Contact;
 import com.smart.entities.User;
 import com.smart.helper.Message;
 
@@ -40,6 +42,24 @@ public class HomeController {
 	@Autowired
 	private UserRepository userRepository;
 
+	
+	//FOR DECALRING UPLOAD LOCATION FOR HEROKU
+	private String uploadLocation; 
+	
+	public HomeController(@Value("${upload.location}") String uploadLocation) throws IOException
+	{
+		this.uploadLocation = uploadLocation;
+		
+		var uploadPath = Paths.get(uploadLocation);
+		
+		if (!Files.exists(uploadPath))
+		{
+			Files.createDirectory(uploadPath);
+		}
+		
+	}
+	
+	
 	// Home Handler
 	@RequestMapping("/")
 	public String home(Model m) {
@@ -62,6 +82,8 @@ public class HomeController {
 		return "signup";
 	}
 
+	
+	
 	// This is a handler is for registering User
 	@RequestMapping(path = "/do_register", method = RequestMethod.POST)
 	public String registerUser(
@@ -91,16 +113,35 @@ public class HomeController {
 				user.setImageUrl("user_default .png");
 			}
 			else {
+//				//upload the file to the folder and update the image file name to the user
+//				user.setImageUrl(imageFile.getOriginalFilename());
+//				
+//				File saveFile = new ClassPathResource("/static/img/").getFile();
+//				
+//				//to make contact image different with same name for different user add extra pathfile name like date or something
+//				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + imageFile.getOriginalFilename());
+//				
+//				Files.copy(imageFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				
+				
+				
+				//HEROKU TEST UPLOADING PROFILE PIC
+				
+				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+				
 				//upload the file to the folder and update the image file name to the user
-				user.setImageUrl(imageFile.getOriginalFilename());
+				String imageFileName = user.getName() + timestamp.getTime() + imageFile.getOriginalFilename();
 				
-				File saveFile = new ClassPathResource("/static/img/").getFile();
+				user.setImageUrl(imageFileName);
 				
-				//to make contact image different with same name for different user add extra pathfile name like date or something
-				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + imageFile.getOriginalFilename());
+				var filename = imageFileName;
+				var dest = Paths.get(uploadLocation + "/" + filename);
+					
+				Files.copy(imageFile.getInputStream(), dest);
+					
 				
-				Files.copy(imageFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-				
+				System.out.println("IMAGE SAVE FORMAT ID : " + user.getName() + timestamp.getTime() + imageFile.getOriginalFilename() );
+				System.out.println("DEST: " + dest);
 				System.out.println("User Image is Uploaded");
 			}
 			
@@ -161,9 +202,15 @@ public class HomeController {
 					
 					try {
 						
-						userFile = new ClassPathResource("/static/img/").getFile();
-						Path path = Paths.get(userFile.getAbsolutePath() + File.separator + imageFileName);
-						Files.deleteIfExists(path);
+//						userFile = new ClassPathResource("/static/img/").getFile();
+//						Path path = Paths.get(userFile.getAbsolutePath() + File.separator + imageFileName);
+						
+						
+						
+						//HEROKU FILE UPLOADING PATH
+						
+						var dest = Paths.get(uploadLocation + "/" + imageFileName);
+						Files.deleteIfExists(dest);
 					} 
 					catch (IOException e) {
 						System.out.println("No User Image File");
@@ -196,80 +243,102 @@ public class HomeController {
 	}
 
 	//Process update user handler 
-		@RequestMapping(value = "/process-update-user/{id}", method = RequestMethod.POST)
-		public String processUpdateHandler(
-				@PathVariable("id") int id,
-				@Valid @ModelAttribute User user, 
-				BindingResult result,
-				@RequestParam("profileImage") MultipartFile imgFile, 
-				Model m,
-				HttpSession session,
-				Principal p)
-		{
+	@RequestMapping(value = "/process-update-user/{id}", method = RequestMethod.POST)
+	public String processUpdateHandler(
+			@PathVariable("id") int id,
+			@Valid @ModelAttribute User user, 
+			BindingResult result,
+			@RequestParam("profileImage") MultipartFile imgFile, 
+			Model m,
+			HttpSession session,
+			Principal p)
+	{
+		
+		try {
 			
-			try {
+			//setting user id coming from URL
+			user.setId(id);
+			
+			//old user details
+			User oldUserDetail = this.userRepository.findById(user.getId()).get();
+			
+			
+			if (!imgFile.isEmpty())
+			{
+				//rewrite file
 				
-				//setting user id coming from URL
-				user.setId(id);
-				
-				//old user details
-				User oldUserDetail = this.userRepository.findById(user.getId()).get();
-				
-				
-				if (!imgFile.isEmpty())
-				{
-					//rewrite file
+				//if image is not default.png
+				if (!oldUserDetail.getImageUrl().equals("user_default .png")) {
 					
-					//if image is not default.png
-					if (!oldUserDetail.getImageUrl().equals("user_default .png")) {
-						
-						//delete old photo
-						
-						//old way (new way is done in delete handler by me)
-						File deleteFile = new ClassPathResource("/static/img/").getFile();
-						File f1 = new File(deleteFile, oldUserDetail.getImageUrl());
-						f1.delete();
-					}
-					//update new photo
-					File saveFile = new ClassPathResource("/static/img/").getFile();				
-					Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + imgFile.getOriginalFilename());
+					//delete old photo
 					
-					Files.copy(imgFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+//					//old way (new way is done in delete handler by me)
+//					File deleteFile = new ClassPathResource("/static/img/").getFile();
+//					File f1 = new File(deleteFile, oldUserDetail.getImageUrl());
+//					f1.delete();
 					
-					user.setImageUrl(imgFile.getOriginalFilename());
-				
-				
-				
+					
+					//HEROKU FILE DELETION
+					
+					//old way (new way is done in delete handler by me)
+					File deleteFile = new File(uploadLocation + "/" + oldUserDetail.getImageUrl());
+					deleteFile.delete();
 				}
-				else
-				{
-					user.setImageUrl(oldUserDetail.getImageUrl());
-				}
+				//update new photo
+				
+//				File saveFile = new ClassPathResource("/static/img/").getFile();				
+//				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + imgFile.getOriginalFilename());
+//				
+//				Files.copy(imgFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+//				user.setImageUrl(imgFile.getOriginalFilename());
+				
+				//HEROKU FILE UPLOADING
+				
+				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+				String imageFileName = oldUserDetail.getName() + timestamp.getTime() + imgFile.getOriginalFilename();
 				
 				
-				if (result.hasErrors()) {
-					System.out.println("ERROR: " + result.toString());
-					m.addAttribute("user", user);
-					return "update_user_form";
-				}
+				var filename = imageFileName;
+				var dest = Paths.get(uploadLocation + "/" + filename);
+									
+				Files.copy(imgFile.getInputStream(), dest);
+					
+			
 				
-				user.setPassword(passwordEncoder.encode(user.getPassword()));
-				user.setRole("ROLE_USER");
-				user.setEnabled(true);
-				user.setContacts(oldUserDetail.getContacts());
-				
-				User savedUser = this.userRepository.save(user);
-				
-				System.out.println("Updated User: " + savedUser );
-				
-				session.setAttribute("message", new Message("Your Account Data is Updated!!", "info"));
-				
-			} catch (Exception e) {
-				e.printStackTrace();
+				user.setImageUrl(imageFileName);
+			
+			
+			
+			}
+			else
+			{
+				user.setImageUrl(oldUserDetail.getImageUrl());
 			}
 			
-			System.out.println("User Name: " + user.getName()+ "\nUser ID: " + user.getId());
 			
-			return "normal/profile";
+			if (result.hasErrors()) {
+				System.out.println("ERROR: " + result.toString());
+				m.addAttribute("user", user);
+				return "update_user_form";
+			}
+			
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			user.setRole("ROLE_USER");
+			user.setEnabled(true);
+			user.setContacts(oldUserDetail.getContacts());
+			
+			User savedUser = this.userRepository.save(user);
+			
+			System.out.println("Updated User: " + savedUser );
+			
+			session.setAttribute("message", new Message("Your Account Data is Updated!!", "info"));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
+		System.out.println("User Name: " + user.getName()+ "\nUser ID: " + user.getId());
+		
+		return "normal/profile";
+	}
 }
